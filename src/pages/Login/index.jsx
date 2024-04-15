@@ -1,8 +1,11 @@
 import React from 'react'
 import './styles.css'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../../store/userReducer';
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handlerLogin = () => {
@@ -10,7 +13,7 @@ const LoginScreen = () => {
       .then(res => res.json())
       .then(data => {
         localStorage.setItem('token', data.access_token)
-        localStorage.setItem('username', data.name)
+        dispatch(addUser(data.name));
         navigate("/");
       })
       .catch(err => console.log(err))

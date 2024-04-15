@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './styles.css'
 import { FaUserCircle } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 
 const HomeScreen = () => {
+  const { user } = useSelector((state) => (state.user));
   const [users, setUsers] = useState([])
 
   useEffect(() => {
@@ -21,7 +23,7 @@ const HomeScreen = () => {
   return (
     <div className='home_container'>
       <div className='home_header'>
-        <h2>Hola {localStorage.getItem('username')}</h2>
+        <h2>Hola {user}</h2>
         <div className='logout'>
           <FaUserCircle />
           logout
