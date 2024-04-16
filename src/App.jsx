@@ -30,9 +30,6 @@ function App() {
           localStorage.removeItem('token')
           dispatch(addUser(null));
         })
-    } else {
-      localStorage.removeItem('token')
-      dispatch(addUser(null));
     }
   }
 

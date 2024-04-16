@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './styles.css'
 import { FaUserCircle } from "react-icons/fa";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUser } from '../../store/userReducer';
+import User from '../../components/User';
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
+
   const { user } = useSelector((state) => (state.user));
   const [users, setUsers] = useState([])
 
@@ -20,13 +24,18 @@ const HomeScreen = () => {
       .catch(err => console.log(err))
   }
 
+  const handlerLogout = () => {
+    localStorage.removeItem('token')
+    dispatch(addUser(null));
+  }
+
   return (
     <div className='home_container'>
       <div className='home_header'>
         <h2>Hola {user}</h2>
-        <div className='logout'>
+        <div className='logout' onClick={handlerLogout}>
           <FaUserCircle />
-          logout
+          Logout
         </div>
       </div>
       <div className='home_body'>
@@ -42,19 +51,7 @@ const HomeScreen = () => {
           <tbody>
             {
               users.map(user => (
-                <tr key={user.contactId}>
-                  <td>{`${user.name} ${user.surnames}`}</td>
-                  <td>{user.birthDate}</td>
-                  <td>
-                    {
-                      user.photo ? (
-                        <img src={user.photo} />
-                      ) : (
-                        <FaUserCircle />
-                      )
-                    }
-                  </td>
-                </tr>
+                <User key={user.contactId} user={user} />
               ))
             }
           </tbody>
